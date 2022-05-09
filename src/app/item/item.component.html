@@ -1,0 +1,26 @@
+<div class="item">
+    <input [id]="item._id" type="checkbox" (change)="item.done = !item.done; updateItem.emit()" [checked]="item.done" />
+    <label [for]="item._id">{{item.description}}</label>
+
+    <div class="btn-wrapper" *ngIf="!editable">
+        <button class="btn" (click)="editable = !editable">Edit</button>
+        <button class="btn btn-warn" (click)="remove.emit()">Delete</button>
+        <button class="btn btn-move" *ngIf="filter == 'all'" (click)="moveUp.emit()">+</button>
+        <button class="btn btn-move" *ngIf="filter == 'all'" (click)="moveDown.emit()">-</button>
+    </div>
+
+    <!-- Seleção só é mostrada se clicar no botão Edit
+    ! = operador unário que inverte o valor lógico
+    DATA BINDING:
+    bloco laranja = componente (app e item, neste caso)
+    um componente que faz referência a outro componente é o componente pai (app), porque um é responsável por instanciar o outro
+    interpolação = colocar a informação do ts no html utilizando duas chaves ( {{ }} ) -->
+
+    <div *ngIf="editable">
+        <input class="sm-text-input" placeholder="edit item" [value]="item.description" #editedItem>
+        <div class="btn-wrapper">
+            <button class="btn" (click)="editable = !editable">Cancel</button>
+            <button class="btn btn-save" (keyup.enter)="item.description = editedItem.value; updateItem.emit()"(click)="item.description = editedItem.value; updateItem.emit()">Save</button>
+        </div>
+    </div>
+</div>
